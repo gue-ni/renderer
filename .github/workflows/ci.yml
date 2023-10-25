@@ -75,6 +75,13 @@ jobs:
         arch: ${{ matrix.arch }}
         dir: '${{github.workspace}}/qt'
         install-deps: 'true'     
+
+    - name: Verify Qt
+      run: |
+        pwd
+        ls
+        echo ${{ env.Qt6_Dir }}
+        find ${{ env.Qt6_Dir }}
     
     - name: Configure
       if: matrix.compiler != 'em++'
