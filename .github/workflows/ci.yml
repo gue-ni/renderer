@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "setup-github-action" ]
   pull_request:
     branches: [ "main" ]
 
@@ -17,16 +17,24 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
+        compiler: [g++, cl]
         build_type: [Release]
         include:
           - os: windows-latest
             arch: 'win64_mingw'
             host: 'windows'
             shell: 'msys2 {0}'
+            compiler: cl
           - os: ubuntu-latest
             arch: 'gcc_64'
             host: 'linux'
             shell: 'bash'
+            compiler: g++
+        exclude:
+          - os: windows-latest
+            compiler: g++
+          - os: ubuntu-latest
+            compiler: cl
 
     steps:
     - uses: actions/checkout@v3
@@ -54,6 +62,7 @@ jobs:
     - name: Configure
       env:
         CMAKE_PREFIX_PATH: ${{env.Qt6_Dir}}/lib/cmake
+        CMAKE_CXX_COMPILER: ${{ matrix.compiler }}
       run: cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DALP_ENABLE_POSITIONING=false -B '${{github.workspace}}'/build
 
     - name: Build
