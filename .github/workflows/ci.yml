@@ -31,7 +31,7 @@ jobs:
             shell: 'bash'
             compiler: g++
           - os: ubuntu-latest
-            arch: 'gcc_64'
+            arch: 'wasm_32'
             host: 'linux'
             shell: 'bash'
             compiler: em++
