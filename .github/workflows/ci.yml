@@ -62,8 +62,9 @@ jobs:
 
     - name: Verify Emscripten
       if: matrix.compiler == 'em++'
-      run: em++ -v
-      run: emcc -v
+      run: |
+        em++ -v
+        emcc -v
     
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
