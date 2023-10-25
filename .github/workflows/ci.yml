@@ -90,7 +90,7 @@ jobs:
       run: |
         echo "qt = ${{ env.Qt6_DIR}}"
         find . -name Qt6Config.cmake
-        emcmake cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_PATH=${{ env.Qt6_DIR }}/lib/cmake/Qt6 -DALP_ENABLE_POSITIONING=false -B '${{github.workspace}}'/build
+        emcmake cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_PATH=./qt/Qt/6.5.3/gcc_64/lib/cmake/Qt6 -DALP_ENABLE_POSITIONING=false -B '${{github.workspace}}'/build
 
     - name: Build
       run: cmake --build '${{github.workspace}}'/build
