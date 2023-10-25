@@ -21,10 +21,10 @@ jobs:
     - name: Setup emsdk
       uses: mymindstorm/setup-emsdk@v11
       with:
-        version: 1.38.40
+        version: 3.1.37
 
     - name: Verify
-      run: emcc -v
+      run: em++ -v
       
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
@@ -38,7 +38,7 @@ jobs:
     - name: Configure CMake
       run: |
         chmod +x ${{ env.Qt6_DIR }}/bin/qt-cmake
-        qt-cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DQt6_DIR=${{ env.Qt6_DIR }}/lib/cmake/Qt6 -DCMAKE_TOOLCHAIN_FILE= -DALP_ENABLE_POSITIONING=false -B '${{github.workspace}}'/build
+        qt-cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DQt6_DIR=${{ env.Qt6_DIR }}/lib/cmake/Qt6 -DALP_ENABLE_POSITIONING=false -B '${{github.workspace}}'/build
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
