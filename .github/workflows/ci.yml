@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        compiler: [g++, cl]
+        compiler: [g++, cl, em++]
         build_type: [Release]
         include:
           - os: windows-latest
@@ -30,11 +30,18 @@ jobs:
             host: 'linux'
             shell: 'bash'
             compiler: g++
+          - os: ubuntu-latest
+            arch: 'gcc_64'
+            host: 'linux'
+            shell: 'bash'
+            compiler: em++
         exclude:
           - os: windows-latest
             compiler: g++
           - os: ubuntu-latest
             compiler: cl
+          - os: windows-latest
+            compiler: em++
 
     steps:
     - uses: actions/checkout@v3
@@ -48,6 +55,10 @@ jobs:
         install: mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
         msystem: mingw64
         release: false
+
+    - name: Install Emscripten
+      if: matrix.compiler = 'em++'
+      uses: mymindstorm/setup-emsdk@v11
     
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
