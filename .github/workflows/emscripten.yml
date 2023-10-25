@@ -34,7 +34,7 @@ jobs:
         arch: 'wasm_singlethread'
 
     - name: Configure CMake
-      run: emcmake cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DQt6_DIR=${{ env.Qt6_DIR }}/lib/cmake/Qt6 -DALP_ENABLE_POSITIONING=false -B '${{github.workspace}}'/build
+      run: emcmake qt-cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DQt6_DIR=${{ env.Qt6_DIR }}/lib/cmake/Qt6 -DALP_ENABLE_POSITIONING=false -B '${{github.workspace}}'/build
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
