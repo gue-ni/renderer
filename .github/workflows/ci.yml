@@ -35,13 +35,17 @@ jobs:
             host: 'linux'
             shell: 'bash'
             compiler: em++
+          - os: windows-latest
+            arch: 'wasm_32'
+            host: 'windows'
+            shell: 'msys2 {0}'
+            compiler: em++
         exclude:
           - os: windows-latest
             compiler: g++
           - os: ubuntu-latest
             compiler: cl
-          - os: windows-latest
-            compiler: em++
+
 
     steps:
     - uses: actions/checkout@v3
