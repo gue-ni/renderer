@@ -57,7 +57,7 @@ jobs:
         release: false
 
     - name: Install Emscripten
-      if: matrix.compiler = 'em++'
+      if: matrix.compiler == 'em++'
       uses: mymindstorm/setup-emsdk@v11
     
     - name: Install Qt
