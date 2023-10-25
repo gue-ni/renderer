@@ -17,14 +17,15 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Install Dependencies 
-      run: sudo apt update && sudo apt install emscripten
 
-    - name: Setup Emscripten
-      run: |
-        em++ -v
-        find / -name Emscripten.cmake
+    - name: Setup emsdk
+      uses: mymindstorm/setup-emsdk@v11
+      with:
+        version: 1.38.40
 
+    - name: Verify
+      run: emcc -v
+      
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
