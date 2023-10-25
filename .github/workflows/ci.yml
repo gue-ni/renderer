@@ -31,12 +31,12 @@ jobs:
             shell: 'bash'
             compiler: g++
           - os: ubuntu-latest
-            arch: 'wasm_32'
+            arch: 'wasm_singlethread'
             host: 'linux'
             shell: 'bash'
             compiler: em++
           - os: windows-latest
-            arch: 'wasm_32'
+            arch: 'wasm_singlethread'
             host: 'windows'
             shell: 'msys2 {0}'
             compiler: em++
