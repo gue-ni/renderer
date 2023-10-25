@@ -60,6 +60,16 @@ jobs:
         msystem: mingw64
         release: false
 
+    - name: Install Emscripten
+      if: matrix.compiler == 'em++'
+      uses: mymindstorm/setup-emsdk@v11
+
+    - name: Verify Emscripten
+      if: matrix.compiler == 'em++'
+      run: |
+        em++ -v
+        emcc -v
+        
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
