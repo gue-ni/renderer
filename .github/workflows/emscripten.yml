@@ -35,7 +35,7 @@ jobs:
 
     - name: Configure CMake
       run: |
-        chmod +x qt-cmake
+        chmod +x ${{ env.Qt6_DIR }}/bin/qt-cmake
         qt-cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DQt6_DIR=${{ env.Qt6_DIR }}/lib/cmake/Qt6 -DALP_ENABLE_POSITIONING=false -B '${{github.workspace}}'/build
 
     - name: Build
