@@ -78,8 +78,8 @@ jobs:
 
     - name: Verify Qt
       run: |
-        echo "Qt6_Dir=${{ env.Qt6_Dir }}"
-        find ${{ env.Qt6_Dir }}
+        echo "Qt6_DIR=${{ env.Qt6_DIR }}"
+        find ${{ env.Qt6_DIR }}
     
     - name: Configure
       if: matrix.compiler != 'em++'
