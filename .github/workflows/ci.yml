@@ -74,7 +74,8 @@ jobs:
         target: 'desktop'
         arch: ${{ matrix.arch }}
         dir: '${{github.workspace}}/qt'
-        install-deps: 'true'     
+        install-deps: 'true'   
+        source: 'true'
 
     - name: Verify Qt
       run: |
