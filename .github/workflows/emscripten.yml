@@ -22,6 +22,7 @@ jobs:
       run: |
         git clone https://github.com/juj/emsdk.git
         cd emsdk
+        find .
         ./emsdk install latest
         ./emsdk activate latest
         source emsdk_env.sh
@@ -39,7 +40,7 @@ jobs:
     - name: Configure CMake
       run: |
         chmod +x ${{ env.Qt6_DIR }}/bin/qt-cmake
-        qt-cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DQt6_DIR=${{ env.Qt6_DIR }}/lib/cmake/Qt6 -DALP_ENABLE_POSITIONING=false -B '${{github.workspace}}'/build
+        qt-cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DQt6_DIR=${{ env.Qt6_DIR }}/lib/cmake/Qt6 -DALP_ENABLE_POSITIONING=false -B '${{github.workspace}}'/build
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
