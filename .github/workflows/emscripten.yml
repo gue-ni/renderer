@@ -26,9 +26,6 @@ jobs:
         ./emsdk activate latest
         source emsdk_env.sh
         cd ..
-
-    - name: Verify
-      run: em++ -v
       
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
