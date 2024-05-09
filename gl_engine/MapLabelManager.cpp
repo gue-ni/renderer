@@ -106,6 +106,7 @@ void MapLabelManager::draw(Framebuffer* gbuffer, ShaderProgram* shader_program, 
     glm::mat4 inv_view_rot = glm::inverse(camera.local_view_matrix());
     shader_program->set_uniform("inv_view_rot", inv_view_rot);
     shader_program->set_uniform("label_dist_scaling", true);
+    shader_program->set_uniform("resolution", glm::vec2(gbuffer->size()));
 
     shader_program->set_uniform("texin_depth", 0);
     gbuffer->bind_colour_texture(1, 0);
@@ -124,6 +125,9 @@ void MapLabelManager::draw(Framebuffer* gbuffer, ShaderProgram* shader_program, 
     f->glDrawElementsInstanced(GL_TRIANGLES, m_mapLabelManager.indices().size(), GL_UNSIGNED_INT, 0, m_instance_count);
     shader_program->set_uniform("drawing_outline", false);
     f->glDrawElementsInstanced(GL_TRIANGLES, m_mapLabelManager.indices().size(), GL_UNSIGNED_INT, 0, m_instance_count);
+
+
+    f->glDisable(GL_BLEND);
 
     m_vao->release();
 }
