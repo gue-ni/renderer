@@ -101,7 +101,7 @@ void main() {
         highp vec3 x2 = p2.xyz;
         highp vec3 x3 = texelFetch(texin_track, ivec2(int(id + 2), 0), 0).xyz;
 
-        float offset = vertical_offset;
+        highp float offset = vertical_offset;
         x0.z += offset;
         x1.z += offset;
         x2.z += offset;
@@ -200,7 +200,7 @@ void main() {
 
                     color = mix(TurboColormap(t_0), TurboColormap(t_1), f);
 
-                } else { // default
+                } else { // default (red)
                     color = vec3(1, 0, 0);
                 }
 

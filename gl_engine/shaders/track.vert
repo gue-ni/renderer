@@ -41,7 +41,7 @@ void main() {
 
   highp vec3 x0 = a_position - camera_position;
 
-  vertical_offset = .0;
+  vertical_offset = 0.0;
 
   x0.z += vertical_offset;
 
