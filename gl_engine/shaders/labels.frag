@@ -35,7 +35,7 @@ lowp vec3 outlineColor = vec3(0.9f);
 void main() {
 
     highp vec2 uv = gl_FragCoord.xy / resolution.xy;
-    float terrain_depth = texture(texin_depth, uv).w;
+    highp float terrain_depth = texture(texin_depth, uv).w;
 
     // if terrain depth is below zero, then it is the sky
     if ( 0.0 < terrain_depth && terrain_depth < dist_to_cam ) {
