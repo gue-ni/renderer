@@ -37,6 +37,7 @@ flat in highp float vertical_offset;
 uniform highp sampler2D texin_track;
 uniform highp sampler2D texin_position;
 uniform lowp sampler2D texin_albedo;
+uniform highp usampler2D texin_normal;
 
 uniform highp vec3 camera_position;
 uniform bool enable_intersection;
@@ -100,11 +101,11 @@ void main() {
         highp vec3 x2 = p2.xyz;
         highp vec3 x3 = texelFetch(texin_track, ivec2(int(id + 2), 0), 0).xyz;
 
-        //float offset = vertical_offset;
-        //x0.z += offset;
-        //x1.z += offset;
-        //x2.z += offset;
-        //x3.z += offset;
+        float offset = vertical_offset;
+        x0.z += offset;
+        x1.z += offset;
+        x2.z += offset;
+        x3.z += offset;
 
         highp float delta_time = p2.w;
 
@@ -169,13 +170,8 @@ void main() {
                 // where point is along the capsule major axis
                 highp float f = dot(AP, AB) / dot(AB, AB);
 
-                if (shading_method == 0) { // default
-                    color = vec3(1,0,0);
-
-                } else if (shading_method == 1) { // normal
-
+                if (shading_method == 1) { // normal
                     color = visualize_normal(normal);
-
                 } else if (shading_method == 2) { // speed
 
                     highp float speed_0 = length(x0 - x1) / p1.w;
@@ -204,18 +200,16 @@ void main() {
 
                     color = mix(TurboColormap(t_0), TurboColormap(t_1), f);
 
-                } else {
-                    color = vec3(0);
+                } else { // default
+                    color = vec3(1, 0, 0);
                 }
 
-                texout_normal = octNormalEncode2u16(normal);
-                texout_depth = vec4(depthWSEncode2n8(t), 0.0, 0.0);
-                texout_position = vec4(var_pos_cws, t);
-
-#if 1
+                // geometry is above terrain
                 if (t < dist) {
-                    // geometry is above terrain
+
                     texout_albedo = color;
+                    texout_position = vec4(var_pos_cws, t);
+                    texout_normal = octNormalEncode2u16(normal);
 
                 } else {
 
@@ -224,31 +218,25 @@ void main() {
                     highp float min_below = 100.0;
                     highp float max_below = 1000.0;
 
-                    //texout_albedo = mix(terrain_albedo, color, 0.5);
-                    texout_albedo = blending(color, terrain_albedo, 0.1);
+                    highp float alpha = 0.5;
 
-#if 0
-                    if (distance_below < min_below) {
-                        //out_color = vec4(color, 0.5);
-                        //texout_albedo = color;
-                        texout_albedo = vec3(0,0,1);
-                        //texout_albedo = mix(v)
-                    } else {
-                        float t = (distance_below - min_below) / (max_below - min_below);
-                        //out_color = vec4(color, 0.5 * (1.0 - t));
-                        texout_albedo = vec3(0,0,1);
-                        //texout_albedo = color;
+                    if (distance_below > min_below) {
+                       //float t = (distance_below - min_below) / (max_below - min_below);
+                        //alpha = max(alpha * (1.0 - t), 0.0);
+                        alpha = 0.0;
                     }
-#endif
+
+
+                    texout_albedo = blending(color, terrain_albedo, alpha);
+                    // need to rest gbuffer for snow, ssao, etc
+                    texout_position = texture(texin_position, texcoords);
+                    texout_normal = texture(texin_normal, texcoords).xy;
                 }
-#endif
             } else {
                 discard; // clipping
             }
         } else {
             discard; // no intersection
         }
-
-
     }
 }

@@ -70,10 +70,14 @@ void TrackManager::draw(Framebuffer* gbuffer, ShaderProgram* shader, const nucle
     shader->set_uniform("max_vertical_speed", m_max_vertical_speed);
     shader->set_uniform("end_index", static_cast<int>(m_total_point_count));
 
+    // G-Buffer
     shader->set_uniform("texin_albedo", 0);
     gbuffer->bind_colour_texture(0, 0);
     shader->set_uniform("texin_position", 1);
     gbuffer->bind_colour_texture(1, 1);
+    shader->set_uniform("texin_normal", 2);
+    gbuffer->bind_colour_texture(2, 2);
+
 
     shader->set_uniform("resolution", glm::vec2(gbuffer->size()));
 
